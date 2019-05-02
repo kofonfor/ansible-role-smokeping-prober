@@ -1,0 +1,14 @@
+- name: start a Smokeping-like Prometheus exporter container
+  docker_container:
+    name: smokeping-prober
+    image: kofonfor/smokeping_prober
+    state: started
+    recreate: yes
+    restart_policy: always
+    read_only: yes
+    exposed_ports:
+      - 9374
+    ports:
+      - "{{ smokeping_prober_host_address }}:9374:9374"
+    command:
+      - "{% for host in groups[smokeping_prober_hosts_group_name] %}{{ hostvars[host]['ansible_' + hostvars[host]['smokeping_prober_network_iface']]['ipv4']['address'] }}{% if not loop.last %} {% endif %}{% endfor %}"
