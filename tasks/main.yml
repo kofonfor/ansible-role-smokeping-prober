@@ -11,4 +11,5 @@
     ports:
       - "{{ smokeping_prober_host_address }}:9374:9374"
     command:
-      - "{% for host in groups[smokeping_prober_hosts_group_name] %}{{ hostvars[host]['ansible_' + hostvars[host]['smokeping_prober_network_iface']]['ipv4']['address'] }}{% if not loop.last %} {% endif %}{% endfor %}"
+      - "{% for host in groups[smokeping_prober_hosts_group_name] %}{{ hostvars[host]['ansible_' + hostvars[host]['smokeping_prober_network_iface']]\
+         ['ipv4']['address'] }}{% if not loop.last %} {% endif %}{% endfor %}"
